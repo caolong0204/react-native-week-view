@@ -93,6 +93,7 @@ const Event = ({
         translatedByDrag.setValue({ x: 0, y: 0 });
         if (debugLockScrollOnDrag) stopDraggingEvent();
       },
+      onShouldBlockNativeResponder: () => false,
     });
   }, [onDragRelease, isDragEnabled, isPressDisabled]);
 
