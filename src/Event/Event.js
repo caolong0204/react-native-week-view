@@ -18,6 +18,9 @@ const Event = ({
   EventComponent,
   containerStyle,
   onDrag,
+  startDraggingEvent,
+  stopDraggingEvent,
+  debugLockScrollOnDrag,
 }) => {
   const isDragEnabled = !!onDrag;
 
@@ -67,6 +70,7 @@ const Event = ({
         isDragEnabled && hasMovedEnough(gestureState),
       onMoveShouldSetPanResponderCapture: (_, gestureState) =>
         isPressDisabled && isDragEnabled && hasMovedEnough(gestureState),
+      onPanResponderGrant: () => debugLockScrollOnDrag && startDraggingEvent(),
       onPanResponderMove: Animated.event(
         [
           null,
@@ -83,9 +87,11 @@ const Event = ({
       onPanResponderRelease: (_, gestureState) => {
         const { dx, dy } = gestureState;
         onDragRelease(dx, dy);
+        if (debugLockScrollOnDrag) stopDraggingEvent();
       },
       onPanResponderTerminate: () => {
         translatedByDrag.setValue({ x: 0, y: 0 });
+        if (debugLockScrollOnDrag) stopDraggingEvent();
       },
     });
   }, [onDragRelease, isDragEnabled, isPressDisabled]);

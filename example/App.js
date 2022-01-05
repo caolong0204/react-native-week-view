@@ -142,6 +142,7 @@ class App extends React.Component {
             onDragEvent={this.onDragEvent}
             isRefreshing={false}
             RefreshComponent={MyRefreshComponent}
+            debugLockScrollOnDrag={true}
           />
         </SafeAreaView>
       </>

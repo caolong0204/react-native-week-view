@@ -257,6 +257,9 @@ class Events extends PureComponent {
       showNowLine,
       nowLineColor,
       onDragEvent,
+      startDraggingEvent,
+      stopDraggingEvent,
+      debugLockScrollOnDrag,
     } = this.props;
     const totalEvents = this.processEvents(
       eventsByDate,
@@ -304,6 +307,9 @@ class Events extends PureComponent {
                     EventComponent={EventComponent}
                     containerStyle={eventContainerStyle}
                     onDrag={onDragEvent && this.onDragEvent}
+                    startDraggingEvent={startDraggingEvent}
+                    stopDraggingEvent={stopDraggingEvent}
+                    debugLockScrollOnDrag={debugLockScrollOnDrag}
                   />
                 ))}
               </View>
