@@ -580,6 +580,7 @@ export default class WeekView extends Component {
               keyExtractor={(item) => item}
               initialScrollIndex={this.pageOffset}
               scrollEnabled={!fixedHorizontally}
+              showsHorizontalScrollIndicator={false}
               onStartShouldSetResponderCapture={() => false}
               onMoveShouldSetResponderCapture={() => false}
               onResponderTerminationRequest={() => false}
