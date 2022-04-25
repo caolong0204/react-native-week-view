@@ -8,6 +8,7 @@ import {
   InteractionManager,
   ActivityIndicator,
 } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import moment from 'moment';
 import memoizeOne from 'memoize-one';
 
@@ -511,7 +512,7 @@ export default class WeekView extends Component {
     };
 
     return (
-      <View style={styles.container}>
+      <GestureHandlerRootView style={styles.container}>
         <View style={styles.headerContainer}>
           <Title
             showTitle={showTitle}
@@ -633,7 +634,7 @@ export default class WeekView extends Component {
             />
           </View>
         </ScrollView>
-      </View>
+      </GestureHandlerRootView>
     );
   }
 }
