@@ -56,7 +56,7 @@ const MyComponent = () => (
 
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| `events` | _Array_ | **required** | Events to display, in `Event Item` format ([see below](#event-item)). |
+| `events` | _Array_ (recommended) or _Object_ | **required** | Events to display. Either an array of `Event Items` ([see format below](#event-item)), or an object with keys as dates and values as arrays of `Event Items` ([see details below](#pass-events-prop-as-object)). |
 | `selectedDate` | _Date_ | **required** | Date to show the week-view in the first render. Note: changing this prop after the first render will not have any effect in the week-view; to actually move the week-view, use the `goToDate()` method, [see below](#methods). |
 | `numberOfDays` | _Number_, one of `1`, `3`, `5`, `7` | **required** | Number of days to show in the week-view. |
 |**_Gesture <br> interactions_**|
@@ -110,6 +110,46 @@ const MyComponent = () => (
   endDate: new Date(2021, 3, 15, 12, 30),
   color: 'blue',
   // ... more properties if needed,
+}
+```
+
+### Pass events prop as object
+The `events` prop can be an object instead of an array, where the keys are dates formatted as `"YYYY-MM-DD"`, and each value is an array of events with the events of that day, sorted by time.
+```js
+const eventsByDate = {
+  "2022-04-25": [event1, event2],
+  "2022-04-26": [event3, event4],
+  // and so on
+};
+
+// Recommended: use the provided function
+import { bucketEventsByDate } from 'react-native-week-view/src/utils';
+
+eventsByDate = bucketEventsByDate([event1, event2, event3, event4])
+```
+
+This may be useful when the parent component of `<WeekView/>` is performing heavy/slow computation on the events (like an API request), or the amount of events you have is large (>1000). Example:
+```js
+const MyComponent = (props) => {
+  const [events, setEvents] = useState({});
+
+  useEffect(() => {
+    const rawEvents = someHeavyComputation();
+    const processedEvents = rawToProcessedEvents(rawEvents);
+    // Array of events with shape:
+    // {
+    //   id: 1,
+    //   description: 'Event 1',
+    //   startDate: new Date(),
+    //   endDate: new Date(),
+    //   color: 'blue',
+    // }
+    setEvents(sortEventsByDate(processedEvents));
+  }, [someDependencies]);
+
+  return (
+    <WeekView events={this.state.events} />
+  );
 }
 ```
 
